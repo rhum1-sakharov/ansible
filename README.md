@@ -1,3 +1,8 @@
 # lancer une recette ansible
-
-  `ansible-playbook -i hosts playbooks/install.yml`
+  
+  ```
+  cd ansible
+  
+  ansible-playbook -i hosts playbooks/install.yml
+  
+  ```
