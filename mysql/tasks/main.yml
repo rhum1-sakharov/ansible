@@ -4,8 +4,10 @@
 - name: MYSQL | install
   apt:
     name:
-      - mysql-server
-      - mysql-client
+      - mysql-server-{{ mysql_version }}
+      - mysql-server-core-{{ mysql_version }}
+      - mysql-client-core-{{ mysql_version }}
+      - mysql-client-{{ mysql_version }}
       - python-mysqldb
     state: present
 - name: MYSQL | create .my.cnf
@@ -16,15 +18,15 @@
       user=root
       password={{ mysql_root_password }}
 
-# - name: MYSQL | set root password
-#   mysql_user:
-#     check_implicit_admin: true    
-#     login_user: root
-#     login_password: "{{ mysql_root_password }}"    
-#     name: root
-#     password: "{{ mysql_root_password }}"
-#     host: localhost
-#     state: present
+- name: MYSQL | set root password
+  mysql_user:
+    check_implicit_admin: true    
+    login_user: root
+    login_password: "{{ mysql_root_password }}"    
+    name: root
+    password: "{{ mysql_root_password }}"
+    host: localhost
+    state: present
     
 - name: MYSQL | remove anonymous user
   mysql_user:            
@@ -36,22 +38,33 @@
     db: "test"
     state: absent
 
-- name: "MYSQL | create db {{ mysql_db}}"
+- name: "MYSQL | create db {{ mysql_db_chorale}}"
   mysql_db:            
-    db: "{{ mysql_db }}"
+    db: "{{ mysql_db_chorale }}"
     state: present
 
-- name: DEBUG
-  debug:
-    msg: "My password is {{ mysql_password }}. I am user {{ mysql_user }} on db {{ mysql_db }}"
-
-
-
-- name: "MYSQL | create user {{ mysql_user }}"
-  mysql_user:                
-    name: "{{ mysql_user }}"
-    password: "{{ mysql_password }}"    
+- name: "MYSQL | create user {{ mysql_user_chorale }}"
+  mysql_user:               
+    login_user: root
+    login_password: "{{ mysql_root_password }}"     
+    name: "{{ mysql_user_chorale }}"
+    password: "{{ mysql_user_chorale_password }}"    
     host: localhost
-    priv: "*.*:ALL"
+    priv: "{{ mysql_db_chorale }}.*:ALL"
     state: present    
 
+
+- name: "MYSQL | create db {{ mysql_db_nbjardins}}"
+  mysql_db:            
+    db: "{{ mysql_db_nbjardins }}"
+    state: present
+
+- name: "MYSQL | create user {{ mysql_user_nbjardins }}"
+  mysql_user:               
+    login_user: root
+    login_password: "{{ mysql_root_password }}"     
+    name: "{{ mysql_user_nbjardins }}"
+    password: "{{ mysql_user_nbjardins_password }}"    
+    host: localhost
+    priv: "{{ mysql_db_nbjardins }}.*:ALL"
+    state: present    
