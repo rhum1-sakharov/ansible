@@ -1,0 +1,57 @@
+---
+# tasks file for mysql
+
+- name: MYSQL | install
+  apt:
+    name:
+      - mysql-server
+      - mysql-client
+      - python-mysqldb
+    state: present
+- name: MYSQL | create .my.cnf
+  copy:
+    dest: "/root/.my.cnf"
+    content: |
+      [client]
+      user=root
+      password={{ mysql_root_password }}
+
+# - name: MYSQL | set root password
+#   mysql_user:
+#     check_implicit_admin: true    
+#     login_user: root
+#     login_password: "{{ mysql_root_password }}"    
+#     name: root
+#     password: "{{ mysql_root_password }}"
+#     host: localhost
+#     state: present
+    
+- name: MYSQL | remove anonymous user
+  mysql_user:            
+    user: ""
+    state: absent    
+
+- name: MYSQL | remove db test
+  mysql_db:            
+    db: "test"
+    state: absent
+
+- name: "MYSQL | create db {{ mysql_db}}"
+  mysql_db:            
+    db: "{{ mysql_db }}"
+    state: present
+
+- name: DEBUG
+  debug:
+    msg: "My password is {{ mysql_password }}. I am user {{ mysql_user }} on db {{ mysql_db }}"
+
+
+
+- name: "MYSQL | create user {{ mysql_user }}"
+  mysql_user:                
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_password }}"    
+    host: localhost
+    priv: "*.*:ALL"
+    state: present    
+

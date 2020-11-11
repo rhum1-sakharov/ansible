@@ -1,0 +1,16 @@
+---
+# tasks file for java
+- name: JAVA | Add openjdk
+  apt:
+    update_cache: yes
+    name:
+      - openjdk-{{ openjdk_version }}-jdk
+      - openjdk-{{ openjdk_version }}-jdk-headless
+    state: present
+
+- name: JAVA | Add maven
+  apt:
+    update_cache: yes
+    name:
+      - maven      
+    state: present
