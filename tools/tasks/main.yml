@@ -1,0 +1,9 @@
+---
+# tasks file for tools
+- name: TOOLS | fish + vim + git
+  apt:
+    name:
+      - fish
+      - vim
+      - git
+    state: present
