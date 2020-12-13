@@ -8,6 +8,7 @@
     TMP_DIR: "/tmp/nbjardins"
     WEB_APPLICATION_DIR: "/var/www/nbjardins"
     APPLICATION_DIR: "/opt/nbjardins"
+    BACK_PORT: "8060"
   
   tasks:  
 

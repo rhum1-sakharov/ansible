@@ -94,6 +94,10 @@
       src: templates/ports.conf.j2
       dest: /etc/apache2/ports.conf
   
+  - name: "apache2 enable proxy"
+    shell:
+      cmd: "a2enmod proxy proxy_http"   
+
   - name: Restart service apache2, in all cases
     service:
       name: apache2
@@ -128,3 +132,5 @@
     systemd:
       name: nbjardins
       state: started
+
+  
