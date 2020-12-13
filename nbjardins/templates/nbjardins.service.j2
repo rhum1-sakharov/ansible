@@ -1,0 +1,12 @@
+[Unit]
+Description=nbjardins
+After=syslog.target
+
+[Service]
+User=root
+ExecStart={{ APPLICATION_DIR }}/spring-app.jar
+SuccessExitStatus=143
+
+
+[Install]
+WantedBy=multi-user.target

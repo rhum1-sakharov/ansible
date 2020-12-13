@@ -1,88 +1,88 @@
 ---
 # tasks file for nbjardins
 
-  # - name: "USER | creation de {{ user }}"
-  #   user:
-  #    name: "{{ user }}"
-  #    shell: /bin/bash 
+  - name: "USER | creation de {{ user }}"
+    user:
+     name: "{{ user }}"
+     shell: /bin/bash 
       
      
-  # - name: TOOLS | fish + vim + git +  maven + nodejs + npm + httpd
-  #   apt:
-  #     name:
-  #     - fish
-  #     - vim
-  #     - git    
-  #     - maven         
-  #     - curl
-  #     - apache2
-  #     state: present
-  #     update_cache: yes
+  - name: TOOLS | fish + vim + git +  maven + nodejs + npm + httpd
+    apt:
+      name:
+      - fish
+      - vim
+      - git    
+      - maven         
+      - curl
+      - apache2
+      state: present
+      update_cache: yes
 
-  # - name: Install the gpg key for nodejs LTS {{ NODEJS_VERSION }}
-  #   apt_key:
-  #     url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
-  #     state: present
+  - name: Install the gpg key for nodejs LTS {{ NODEJS_VERSION }}
+    apt_key:
+      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+      state: present
 
-  # - name: Install the nodejs LTS repos
-  #   apt_repository:
-  #     repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
-  #     state: present
-  #     update_cache: yes
+  - name: Install the nodejs LTS repos
+    apt_repository:
+      repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+      state: present
+      update_cache: yes
 
   
 
 
-  # - name: TOOLS | nodejs
-  #   apt:
-  #     name:
-  #     - nodejs
-  #     state: present
-  #     update_cache: yes
+  - name: TOOLS | nodejs
+    apt:
+      name:
+      - nodejs
+      state: present
+      update_cache: yes
 
-  # - name: git checkout nbjardins
-  #   git:
-  #     repo: 'https://github.com/rhum1-sakharov/nbjardins.git'
-  #     dest: "{{ TMP_DIR }}"
-  #     force: yes
+  - name: git checkout nbjardins
+    git:
+      repo: 'https://github.com/rhum1-sakharov/nbjardins.git'
+      dest: "{{ TMP_DIR }}"
+      force: yes
 
-  # - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
-  #   file:
-  #     path: "{{ TMP_DIR }}"
-  #     state: directory
-  #     recurse: yes
-  #     owner: "{{ user }}"
-  #     group: "{{ user }}"
-  #     mode: '0755'
+  - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
+    file:
+      path: "{{ TMP_DIR }}"
+      state: directory
+      recurse: yes
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: '0755'
 
-  # - name: compile back nbjardins
-  #   shell: 
-  #    cmd: ./tool bs
-  #    chdir: "{{ TMP_DIR }}"
+  - name: compile back nbjardins
+    shell: 
+     cmd: ./tool bs
+     chdir: "{{ TMP_DIR }}"
 
-  # - name: "copy jar to {{ APPLICATION_DIR }}"
-  #   shell:
-  #     cmd: "mkdir -p {{ APPLICATION_DIR }}/config && cp  {{ TMP_DIR }}/back/adapters/primaries/application/springapp/target/spring-app.jar  {{ APPLICATION_DIR }}/spring-app.jar"       
+  - name: "copy jar to {{ APPLICATION_DIR }}"
+    shell:
+      cmd: "mkdir -p {{ APPLICATION_DIR }}/config && cp  {{ TMP_DIR }}/back/adapters/primaries/application/springapp/target/spring-app.jar  {{ APPLICATION_DIR }}/spring-app.jar"       
   
-  # - name: "Chmod +x {{ APPLICATION_DIR }}/spring-app.jar"
-  #   file:
-  #     path: "{{ APPLICATION_DIR }}/spring-app.jar"      
-  #     owner: "{{ user }}"
-  #     group: "{{ user }}"
-  #     mode: '0755'
+  - name: "Chmod +x {{ APPLICATION_DIR }}/spring-app.jar"
+    file:
+      path: "{{ APPLICATION_DIR }}/spring-app.jar"      
+      owner: "{{ user }}"
+      group: "{{ user }}"
+      mode: '0755'
 
-  # - name: install angular cli  
-  #   shell: 
-  #    cmd: npm i -g @angular/cli     
+  - name: install angular cli  
+    shell: 
+     cmd: npm i -g @angular/cli     
 
-  # - name: compile front nbjardins
-  #   shell: 
-  #    cmd: ./tool fa
-  #    chdir: "{{ TMP_DIR }}"
+  - name: compile front nbjardins
+    shell: 
+     cmd: ./tool fa
+     chdir: "{{ TMP_DIR }}"
 
-  # - name: "copy front to {{ WEB_APPLICATION_DIR }}"
-  #   shell:
-  #     cmd: "mkdir -p {{ WEB_APPLICATION_DIR }} && cp -R {{ TMP_DIR }}/front/dist/front/*  {{ WEB_APPLICATION_DIR }}"   
+  - name: "copy front to {{ WEB_APPLICATION_DIR }}"
+    shell:
+      cmd: "mkdir -p {{ WEB_APPLICATION_DIR }} && cp -R {{ TMP_DIR }}/front/dist/front/*  {{ WEB_APPLICATION_DIR }}"   
   
   - name: template nbjardins.conf for apache2
     template:
@@ -103,3 +103,23 @@
     template:
       src: templates/application.properties.j2
       dest: "{{ APPLICATION_DIR }}/config/application.properties"
+
+  - name: "create systemd service nbjardins"
+    template:
+      src: templates/nbjardins.service.j2
+      dest: "/etc/systemd/system/nbjardins.service"
+  
+  - name: Enable service nbjardins and ensure it is not masked
+    systemd:
+      name: nbjardins
+      enabled: yes
+      masked: no
+
+  - name: Just force systemd to reread configs (2.4 and above)
+    systemd:
+      daemon_reload: yes
+
+  - name: Reload service nbjardins, in all cases
+    systemd:
+      name: nbjardins
+      state: reloaded
