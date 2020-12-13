@@ -119,7 +119,12 @@
     systemd:
       daemon_reload: yes
 
-  - name: Reload service nbjardins, in all cases
+  - name: stop service nbjardins, in all cases
     systemd:
       name: nbjardins
-      state: reloaded
+      state: stopped
+
+  - name: start service nbjardins, in all cases
+    systemd:
+      name: nbjardins
+      state: started
