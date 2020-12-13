@@ -6,73 +6,15 @@
     NODEJS_VERSION: "11"
     ansible_distribution_release: "bionic" #trusty
     TMP_DIR: "/tmp/nbjardins"
+    WEB_APPLICATION_DIR: "/var/www/nbjardins"
+    APPLICATION_DIR: "/opt/nbjardins"
+  
   tasks:  
 
-  - name: "USER | creation de {{ user }}"
-    user:
-     name: "{{ user }}"
-     shell: /bin/bash 
-      
-     
-  - name: TOOLS | fish + vim + git +  maven + nodejs + npm
-    apt:
-      name:
-      - fish
-      - vim
-      - git    
-      - maven         
-      - curl
-      state: present
-      update_cache: yes
+  - name: INCLUDE | vars.yml
+    include_vars: vars.yml
 
-  - name: Install the gpg key for nodejs LTS {{ NODEJS_VERSION }}
-    apt_key:
-      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
-      state: present
-
-  - name: Install the nodejs LTS repos
-    apt_repository:
-      repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
-      state: present
-      update_cache: yes
-
-  
-
-
-  - name: TOOLS | nodejs
-    apt:
-      name:
-      - nodejs
-      state: present
-      update_cache: yes
-
-  - name: git checkout nbjardins
-    git:
-      repo: 'https://github.com/rhum1-sakharov/nbjardins.git'
-      dest: "{{ TMP_DIR }}"
-      force: yes
-
-  - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
-    file:
-      path: "{{ TMP_DIR }}"
-      state: directory
-      recurse: yes
-      owner: "{{ user }}"
-      group: "{{ user }}"
-      mode: '0755'
-
-  - name: compile back nbjardins
-    shell: 
-     cmd: ./tool bs
-     chdir: "{{ TMP_DIR }}"
-
-  - name: install angular cli  
-    shell: 
-     cmd: npm i -g @angular/cli     
-
-  - name: compile front nbjardins
-    shell: 
-     cmd: ./tool fa
-     chdir: "{{ TMP_DIR }}"
-
+  - name: INCLUDE ROLE | nbjardins
+    include_role:      
+      name: nbjardins  
   

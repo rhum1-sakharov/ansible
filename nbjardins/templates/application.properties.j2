@@ -1,0 +1,47 @@
+##############################
+# SERVER
+##############################
+
+server.servlet.context-path=/api
+server.port=8060
+
+##############################
+# APPLICATION
+##############################
+
+worker.nom=Boetsch
+worker.prenom=Nicolas
+worker.email=rvermo3402@gmail.com
+worker.adresse=
+worker.ville=Pernes les fontaines
+worker.codePostal=84210
+worker.telephone=
+worker.societe=NB Jardins
+worker.fonction=Jardinier
+
+##############################
+# MAILS
+##############################
+
+springapp.resourceurl=http://localhost:8060/api
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=rvermo3402@gmail.com
+spring.mail.password={{ smtp_password }}
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.starttls.required=false
+
+##############################
+# DATABASE
+##############################
+
+hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+javax.persistence.jdbc.url=jdbc:mysql://localhost:3306/nbjardins?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+javax.persistence.jdbc.user=root
+javax.persistence.jdbc.password={{ mysql_root_password }}
+javax.persistence.jdbc.driver=com.mysql.cj.jdbc.Driver
+hibernate.hikari.connectionTimeout=20000
+hibernate.hikari.minimumIdle=10
+hibernate.hikari.maximumPoolSize=20
+hibernate.hikari.idleTimeout=300000
