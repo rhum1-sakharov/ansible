@@ -45,6 +45,11 @@
       repo: 'https://github.com/rhum1-sakharov/nbjardins.git'
       dest: "{{ TMP_DIR }}"
       force: yes
+  
+  - name: template JpaConfigTest.java for testing
+    template:
+      src: templates/JpaConfigTest.java.j2
+      dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/test/java/org/rlsv/adapters/secondaries/dataproviderjpa/config/JpaConfigTest.java"
 
   - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
     file:
@@ -53,7 +58,7 @@
       recurse: yes
       owner: "{{ user }}"
       group: "{{ user }}"
-      mode: '0755'
+      mode: '0755'  
 
   - name: compile back nbjardins
     shell: 

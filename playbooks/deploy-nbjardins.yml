@@ -3,7 +3,7 @@
   hosts: all   
   remote_user: root
   vars:
-    NODEJS_VERSION: "11"
+    NODEJS_VERSION: "12"
     ansible_distribution_release: "bionic" #trusty
     TMP_DIR: "/tmp/nbjardins"
     WEB_APPLICATION_DIR: "/var/www/nbjardins"
