@@ -45,7 +45,13 @@
       repo: 'https://github.com/rhum1-sakharov/nbjardins.git'
       dest: "{{ TMP_DIR }}"
       force: yes
-  
+ 
+  - name: template liquibase.properties for testing
+    template:
+      src: templates/liquibase.properties.j2
+      dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/main/resources/liquibase/liquibase.properties"
+
+
   - name: template JpaConfigTest.java for testing
     template:
       src: templates/JpaConfigTest.java.j2
@@ -78,7 +84,12 @@
 
   - name: install angular cli  
     shell: 
-     cmd: npm i -g @angular/cli     
+     cmd: npm i -g @angular/cli    
+  
+  - name: "disable angular analytics"
+    shell:
+      cmd: "ng analytics off"        
+      chdir: "{{ TMP_DIR }}/front"
 
   - name: compile front nbjardins
     shell: 
@@ -98,6 +109,11 @@
     template:
       src: templates/ports.conf.j2
       dest: /etc/apache2/ports.conf
+
+  - name: ".htaccess for {{ WEB_APPLICATION_DIR }}"
+    template:
+      src: templates/htaccess.j2
+      dest: "{{ WEB_APPLICATION_DIR }}/.htaccess"
   
   - name: "apache2 enable proxy"
     shell:
