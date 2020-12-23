@@ -52,10 +52,10 @@
       dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/main/resources/liquibase/liquibase.properties"
 
 
-  # - name: template JpaConfigTest.java for testing
-  #   template:
-  #     src: templates/JpaConfigTest.java.j2
-  #     dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/test/java/org/rlsv/adapters/secondaries/dataproviderjpa/config/JpaConfigTest.java"
+  - name: template JtaTest.java for testing
+    template:
+      src: templates/JtaTest.java.j2
+      dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/test/java/org/rlsv/adapters/secondaries/dataproviderjpa/jta/JtaTest.java"
 
   - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
     file:
