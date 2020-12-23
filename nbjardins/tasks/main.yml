@@ -15,7 +15,7 @@
       - git    
       - maven         
       - curl
-      - apache2
+      - apache2  
       state: present
       update_cache: yes
 
@@ -52,10 +52,10 @@
       dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/main/resources/liquibase/liquibase.properties"
 
 
-  - name: template JpaConfigTest.java for testing
-    template:
-      src: templates/JpaConfigTest.java.j2
-      dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/test/java/org/rlsv/adapters/secondaries/dataproviderjpa/config/JpaConfigTest.java"
+  # - name: template JpaConfigTest.java for testing
+  #   template:
+  #     src: templates/JpaConfigTest.java.j2
+  #     dest: "{{ TMP_DIR }}/back/adapters/secondaries/dataproviderjpa/src/test/java/org/rlsv/adapters/secondaries/dataproviderjpa/config/JpaConfigTest.java"
 
   - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
     file:
@@ -64,12 +64,17 @@
       recurse: yes
       owner: "{{ user }}"
       group: "{{ user }}"
-      mode: '0755'  
+      mode: '0755'    
 
   - name: compile back nbjardins
     shell: 
      cmd: ./tool bs
      chdir: "{{ TMP_DIR }}"
+
+  - name: stop service nbjardins, in all cases
+    systemd:
+      name: nbjardins
+      state: stopped
 
   - name: "copy jar to {{ APPLICATION_DIR }}"
     shell:
@@ -93,7 +98,7 @@
 
   - name: compile front nbjardins
     shell: 
-     cmd: ./tool fa
+     cmd: yes | ./tool fa
      chdir: "{{ TMP_DIR }}"
 
   - name: "copy front to {{ WEB_APPLICATION_DIR }}"
@@ -144,10 +149,7 @@
     systemd:
       daemon_reload: yes
 
-  - name: stop service nbjardins, in all cases
-    systemd:
-      name: nbjardins
-      state: stopped
+ 
 
   - name: start service nbjardins, in all cases
     systemd:
