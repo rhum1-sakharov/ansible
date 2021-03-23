@@ -1,0 +1,14 @@
+---
+# tasks file for apache2
+
+ - name: APACHE2 
+   apt:
+      name: 
+       - apache2  
+      state: present
+      update_cache: yes
+  
+ - name: template ports.conf for apache2
+   template:
+      src: templates/ports.conf.j2
+      dest: /etc/apache2/ports.conf
