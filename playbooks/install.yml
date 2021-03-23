@@ -1,6 +1,7 @@
 ---
 - name: Installation du serveur
   hosts: all   
+  become: true
   remote_user: root
   tasks:  
 
