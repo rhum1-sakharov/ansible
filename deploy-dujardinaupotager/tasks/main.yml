@@ -1,0 +1,23 @@
+---
+# tasks file for deploy-dujardinaupotager
+
+- name: "create dir {{ WEB_APPLICATION_DIR }}"
+  file: 
+    path: "{{ WEB_APPLICATION_DIR }}"
+    state: directory
+  
+
+- name: template dujardinaupotager.conf for apache2
+  template:
+    src: templates/dujardinaupotager.conf.j2
+    dest: /etc/apache2/sites-enabled/dujardinaupotager.conf
+
+- name: ".htaccess for {{ WEB_APPLICATION_DIR }}"
+  template:
+    src: templates/htaccess.j2
+    dest: "{{ WEB_APPLICATION_DIR }}/.htaccess"
+
+- name: Restart service apache2, in all cases
+  service:
+    name: apache2
+    state: restarted
