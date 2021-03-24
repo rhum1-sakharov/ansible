@@ -5,6 +5,7 @@
   remote_user: root  
   vars:    
     WEB_APPLICATION_DIR: "/var/www/dujardinaupotager" 
+    LOCAL_DIST: "/tmp/nbjardins/front/dujardinaupotager/dist/dujardinaupotager"
     
 
   tasks:  

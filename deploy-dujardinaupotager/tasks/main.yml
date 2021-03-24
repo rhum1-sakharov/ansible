@@ -1,6 +1,11 @@
 ---
 # tasks file for deploy-dujardinaupotager
 
+- name: "remove dir {{ WEB_APPLICATION_DIR }}"
+  file: 
+    path: "{{ WEB_APPLICATION_DIR }}"
+    state: absent
+
 - name: "create dir {{ WEB_APPLICATION_DIR }}"
   file: 
     path: "{{ WEB_APPLICATION_DIR }}"
@@ -16,6 +21,11 @@
   template:
     src: templates/htaccess.j2
     dest: "{{ WEB_APPLICATION_DIR }}/.htaccess"
+
+- name: "copy files"
+  copy:
+    src: "{{ LOCAL_DIST }}/"
+    dest: "{{ WEB_APPLICATION_DIR }}"
 
 - name: Restart service apache2, in all cases
   service:
