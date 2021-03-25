@@ -25,15 +25,20 @@ case "$1" in
     	ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
         ;;
 
-	all) 
+	cd) 
 	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass
         ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
+		;;
+
+    infra) 
+	    sudo ansible-playbook -i hosts playbooks/install.yml  --vault-password-file .vault_pass        
 		;;
 
 	*)
 		echo "Utilisation : $0"
 		echo "	compile : compiler nbjardins"
 		echo "	deploydap : deployer du jardin au potager"
-		echo "	all : compiler et déployer nbjardins"
+        echo "	infra : installer l'infra"
+		echo "	cd : compiler et déployer nbjardins"
 		;;
 esac
