@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+command -v readlink &> /dev/null
+if [ "$?" -eq "0" ] ; then
+	#shellcheck disable=SC2155
+	export curdir="$( cd "$( dirname "$(readlink "${BASH_SOURCE[0]}" || echo "${BASH_SOURCE[0]}" )" )" && pwd )"
+else
+	#shellcheck disable=SC2155
+	export curdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fi
+
+shift $((OPTIND-1))
+[ "$1" = "--" ] && shift
+
+# sinon option par défaut
+export _F_FORCE=${_F_FORCE-0}
+
+case "$1" in
+
+	compile)
+	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass
+		;;
+
+	deploydap) 
+    	ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
+        ;;
+
+	all) 
+	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass
+        ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
+		;;
+
+	*)
+		echo "Utilisation : $0"
+		echo "	compile : compiler nbjardins"
+		echo "	deploydap : deployer du jardin au potager"
+		echo "	all : compiler et déployer nbjardins"
+		;;
+esac
