@@ -22,7 +22,12 @@
       recurse: yes
       owner: root
       group: root
-      mode: '0755'    
+      mode: '0755'   
+
+  - name: template config.properties
+    template:
+      src: templates/config.properties.j2
+      dest: "{{ TMP_DIR }}/src/main/resources/config.properties"
 
   - name: compile cbd84
     become: true

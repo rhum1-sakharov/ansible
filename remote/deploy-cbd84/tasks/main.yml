@@ -1,0 +1,27 @@
+---
+# tasks file for remote/deploy-cbd84
+
+- name: stop service tomcat9, in all cases
+  systemd:
+    name: tomcat9
+    state: stopped
+
+- name: "remove dir {{ WEB_APPLICATION_DIR }}/cbd84"
+  file: 
+    path: "{{ WEB_APPLICATION_DIR }}/cbd84"
+    state: absent
+
+- name: "remove war {{ WEB_APPLICATION_DIR }}/cbd84.war"
+  file: 
+    path: "{{ WEB_APPLICATION_DIR }}/cbd84.war"
+    state: absent
+  
+- name: "copy cbd84.war"
+  copy:
+    src: "{{ LOCAL_DIST }}/cbd84.war"
+    dest: "{{ WEB_APPLICATION_DIR }}/"
+
+- name: start service tomcat9, in all cases
+  systemd:
+    name: tomcat9
+    state: started

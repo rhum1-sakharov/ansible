@@ -18,24 +18,28 @@ export _F_FORCE=${_F_FORCE-0}
 case "$1" in
 
 	compilenb)
-	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass
+	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass 
 		;;
 
 	compilecbd84)
-	    sudo ansible-playbook -i hosts playbooks/compile-cbd84.yml  --vault-password-file .vault_pass
+	    sudo ansible-playbook -i hosts playbooks/compile-cbd84.yml  --vault-password-file .vault_pass 
 		;;
 
 	deploydap) 
-    	ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
+    	ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass  
+        ;;
+
+    deploycbd84) 
+    	ansible-playbook -i hosts playbooks/deploy-cbd84.yml  --vault-password-file .vault_pass    		
         ;;
 
 	cd) 
-	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass
-        ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
+	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass 
+        ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass 
 		;;
 
     infraremote) 
-	    ansible-playbook -i hosts playbooks/install-remote.yml  --vault-password-file .vault_pass        
+	    ansible-playbook -i hosts playbooks/install-remote.yml  --vault-password-file .vault_pass 
 		;;
 
 	*)
@@ -43,6 +47,7 @@ case "$1" in
 		echo "	compilenb : compiler nbjardins"
 		echo "	compilecbd84 : compiler cbd84"
 		echo "	deploydap : deployer du jardin au potager"
+		echo "	deploycbd84 : deployer cbd84"
         echo "	infraremote : installer l'infra remote"
 		echo "	cd : compiler et déployer nbjardins"
 		;;
