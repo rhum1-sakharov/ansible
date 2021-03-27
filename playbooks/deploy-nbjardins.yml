@@ -1,6 +1,6 @@
 ---
 - name: Deploiement de l'application nbjardins
-  hosts: all   
+  hosts: webservers   
   remote_user: root
   vars:
     NODEJS_VERSION: "12"
@@ -15,7 +15,7 @@
   - name: INCLUDE | vars.yml
     include_vars: vars.yml
 
-  - name: INCLUDE ROLE | nbjardins
+  - name: INCLUDE | remote/nbjardins
     include_role:      
-      name: nbjardins  
+      name: remote/nbjardins  
   

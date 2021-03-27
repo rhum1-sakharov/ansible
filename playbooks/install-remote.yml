@@ -1,6 +1,6 @@
 ---
-- name: Installation du serveur
-  hosts: all   
+- name: "Installation du serveur"
+  hosts: webservers   
   become: true
   remote_user: root
   tasks:  
@@ -33,21 +33,21 @@
       upgrade: dist
       update_cache: yes
   
-  - name: INCLUDE ROLE | tools
+  - name: INCLUDE | commons/tools
     include_role:
-      name: tools        
+      name: commons/tools        
 
-  - name: INCLUDE ROLE | java
+  - name: INCLUDE | commons/java
     include_role:      
-      name: java
+      name: commons/java
   
-  - name: INCLUDE ROLE | mysql
+  - name: INCLUDE | commons/mysql
     include_role:      
-      name: mysql
+      name: commons/mysql
   
-  - name: INCLUDE ROLE | apache2
+  - name: INCLUDE | commons/apache2
     include_role:      
-      name: apache2
+      name: commons/apache2
   
 
   

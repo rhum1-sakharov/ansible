@@ -1,0 +1,27 @@
+---  
+- name: Compiler le projet cbd84
+  hosts: localhost
+  connection: local  
+  become: true 
+  vars:    
+    ansible_distribution_release: "focal" #trusty
+    TMP_DIR: "/tmp/cbd84"   
+    APPLICATION_DIR: "/var/lib/tomcat9/webapps/cbd84"
+    BACK_PORT: "8080"
+  tasks:  
+
+  - name: INCLUDE | vars.yml
+    include_vars: vars.yml
+
+  - name: INCLUDE | commons/tools    
+    include_role:      
+      name: commons/tools
+
+  - name: INCLUDE | commons/java    
+    include_role:      
+      name: commons/java 
+
+  - name: INCLUDE | local/compile-cbd84    
+    include_role:      
+      name: local/compile-cbd84  
+  

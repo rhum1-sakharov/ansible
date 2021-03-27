@@ -15,7 +15,15 @@
   - name: INCLUDE | vars.yml
     include_vars: vars.yml
 
-  - name: INCLUDE ROLE | compile-nbjardins    
+  - name: INCLUDE | commons/tools    
     include_role:      
-      name: compile-nbjardins  
+      name: commons/tools
+
+  - name: INCLUDE | commons/angular    
+    include_role:      
+      name: commons/angular 
+
+  - name: INCLUDE | local/compile-nbjardins    
+    include_role:      
+      name: local/compile-nbjardins  
   

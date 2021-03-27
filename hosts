@@ -16,7 +16,11 @@
 #192.168.100.10
 
 # Ex 2: A collection of hosts belonging to the 'webservers' group
+[localhost]
+127.0.0.1
 
+[localhost:vars]
+user=ansible
 
 [webservers]
 51.222.157.164 ansible_user=ubuntu

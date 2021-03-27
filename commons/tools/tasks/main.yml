@@ -1,0 +1,15 @@
+---
+# tasks file for tools
+
+- name: template etc/sudoers
+  template:
+    src: templates/etc/sudoers.j2
+    dest: /etc/sudoers
+
+- name: fish + vim + git
+  apt:
+    name:
+      - fish
+      - vim
+      - git
+    state: present

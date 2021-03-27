@@ -1,0 +1,31 @@
+---
+# tasks file for compile-cbd84
+
+  - name: TOOLS |  git +  maven  
+    apt:
+      name:      
+      - git    
+      - maven    
+      state: present
+      update_cache: yes
+
+  - name: git checkout cbd84
+    git:
+      repo: 'https://github.com/rhum1-sakharov/cbd84.git'
+      dest: "{{ TMP_DIR }}"
+      force: yes
+
+  - name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
+    file:
+      path: "{{ TMP_DIR }}"
+      state: directory
+      recurse: yes
+      owner: root
+      group: root
+      mode: '0755'    
+
+  - name: compile cbd84
+    become: true
+    shell:      
+     cmd: mvn clean install -DskipTests=true
+     chdir: "{{ TMP_DIR }}"

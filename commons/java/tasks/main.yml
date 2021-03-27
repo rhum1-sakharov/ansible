@@ -14,3 +14,10 @@
     name:
       - maven      
     state: present
+
+- name: JAVA | add tomcat9
+  apt:
+    update_cache: yes
+    name:
+      - tomcat9      
+    state: present

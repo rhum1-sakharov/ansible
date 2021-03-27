@@ -1,0 +1,30 @@
+---
+# tasks file for compile-nbjardins
+
+
+  - name: git checkout nbjardins
+    git:
+      repo: 'https://github.com/rhum1-sakharov/nbjardins.git'
+      dest: "{{ TMP_DIR }}"
+      force: yes  
+
+  - name: "install node modules  {{ TMP_DIR }}/front/core-lib/projects/core-lib"
+    become: true
+    shell: 
+     cmd: npm i
+     chdir: "{{ TMP_DIR }}/front/core-lib/projects/core-lib"
+
+  - name: compile "{{ TMP_DIR }}/front/core-lib"
+    shell: 
+     cmd: ng build --prod
+     chdir: "{{ TMP_DIR }}/front/core-lib"
+
+  - name: install node modules "{{ TMP_DIR }}/front/dujardinaupotager"
+    shell: 
+     cmd: npm i
+     chdir: "{{ TMP_DIR }}/front/dujardinaupotager"
+
+  - name: compile  "{{ TMP_DIR }}/front/dujardinaupotager"
+    shell: 
+     cmd: ng build --prod
+     chdir: "{{ TMP_DIR }}/front/dujardinaupotager"

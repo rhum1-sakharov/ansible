@@ -17,8 +17,12 @@ export _F_FORCE=${_F_FORCE-0}
 
 case "$1" in
 
-	compile)
+	compilenb)
 	    sudo ansible-playbook -i hosts playbooks/compile-nbjardins.yml  --vault-password-file .vault_pass
+		;;
+
+	compilecbd84)
+	    sudo ansible-playbook -i hosts playbooks/compile-cbd84.yml  --vault-password-file .vault_pass
 		;;
 
 	deploydap) 
@@ -30,15 +34,16 @@ case "$1" in
         ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass    		
 		;;
 
-    infra) 
-	    sudo ansible-playbook -i hosts playbooks/install.yml  --vault-password-file .vault_pass        
+    infraremote) 
+	    ansible-playbook -i hosts playbooks/install-remote.yml  --vault-password-file .vault_pass        
 		;;
 
 	*)
 		echo "Utilisation : $0"
-		echo "	compile : compiler nbjardins"
+		echo "	compilenb : compiler nbjardins"
+		echo "	compilecbd84 : compiler cbd84"
 		echo "	deploydap : deployer du jardin au potager"
-        echo "	infra : installer l'infra"
+        echo "	infraremote : installer l'infra remote"
 		echo "	cd : compiler et déployer nbjardins"
 		;;
 esac
