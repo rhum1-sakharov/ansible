@@ -5,6 +5,8 @@
   remote_user: root  
   vars:    
     WEB_APPLICATION_DIR: "/var/lib/tomcat9/webapps" 
+    WEB_APPLICATION_CACHE: "/var/lib/tomcat9/work/Catalina/localhost/cbd84" 
+    WEB_DATA_DIR: "/opt/cbd84"
     LOCAL_DIST: "/tmp/cbd84/target"
     
 

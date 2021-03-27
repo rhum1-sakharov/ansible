@@ -6,10 +6,12 @@
     src: templates/etc/sudoers.j2
     dest: /etc/sudoers
 
-- name: fish + vim + git
+- name: fish + vim + git + htop + ncdu
   apt:
     name:
       - fish
       - vim
       - git
+      - htop
+      - ncdu
     state: present

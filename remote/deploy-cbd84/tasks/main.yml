@@ -2,26 +2,50 @@
 # tasks file for remote/deploy-cbd84
 
 - name: stop service tomcat9, in all cases
+  become: true
   systemd:
     name: tomcat9
     state: stopped
 
-- name: "remove dir {{ WEB_APPLICATION_DIR }}/cbd84"
-  file: 
-    path: "{{ WEB_APPLICATION_DIR }}/cbd84"
-    state: absent
+# - name: "remove dir {{ WEB_APPLICATION_DIR }}/cbd84"
+#   file: 
+#     path: "{{ WEB_APPLICATION_DIR }}/cbd84"
+#     state: absent
 
-- name: "remove war {{ WEB_APPLICATION_DIR }}/cbd84.war"
+# - name: "remove dir {{ WEB_APPLICATION_CACHE }}"
+#   become: true
+#   file: 
+#     path: "{{ WEB_APPLICATION_CACHE }}"
+#     state: absent
+
+- name: "Change file ownership, group and permissions for {{ WEB_DATA_DIR }}"
+  file:
+    path: "{{ WEB_DATA_DIR }}"
+    state: directory
+    recurse: yes
+    owner: "tomcat"
+    group: "tomcat"
+    mode: '0777'    
+
+
+- name: "create dir {{ WEB_DATA_DIR }}/data"
   file: 
-    path: "{{ WEB_APPLICATION_DIR }}/cbd84.war"
-    state: absent
+    path: "{{ WEB_DATA_DIR }}/data"
+    state: directory
+
+
+# - name: "remove war {{ WEB_APPLICATION_DIR }}/cbd84.war"
+#   file: 
+#     path: "{{ WEB_APPLICATION_DIR }}/cbd84.war"
+#     state: absent
   
-- name: "copy cbd84.war"
-  copy:
-    src: "{{ LOCAL_DIST }}/cbd84.war"
-    dest: "{{ WEB_APPLICATION_DIR }}/"
+# - name: "copy cbd84.war"
+#   copy:
+#     src: "{{ LOCAL_DIST }}/cbd84.war"
+#     dest: "{{ WEB_APPLICATION_DIR }}/"
 
 - name: start service tomcat9, in all cases
-  systemd:
+  become: true
+  systemd:    
     name: tomcat9
     state: started
