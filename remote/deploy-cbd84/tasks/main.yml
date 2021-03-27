@@ -49,3 +49,13 @@
   systemd:    
     name: tomcat9
     state: started
+
+- name: template cbd84.conf for apache2
+  template:
+    src: templates/cbd84.conf.j2
+    dest: /etc/apache2/sites-enabled/cbd84.conf
+
+- name: Restart service apache2, in all cases
+  service:
+    name: apache2
+    state: restarted
