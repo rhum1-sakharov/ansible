@@ -11,7 +11,7 @@
         ServerName www.cbd84.fr
         ServerAlias cbd84.fr
         ServerSignature Off
-        ServerAdmin webmaster@localhost                
+        ServerAdmin webmaster@localhost
 
         ProxyPreserveHost On
         ProxyRequests Off
@@ -34,4 +34,11 @@
         # following line enables the CGI configuration for this host only
         # after it has been globally disabled with "a2disconf".
         #Include conf-available/serve-cgi-bin.conf
+
+RewriteEngine on
+RewriteCond %{SERVER_NAME} =www.cbd84.fr [OR]
+RewriteCond %{SERVER_NAME} =cbd84.fr
+RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+
 </VirtualHost>
+
