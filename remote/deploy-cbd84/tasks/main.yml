@@ -44,11 +44,7 @@
     src: "{{ LOCAL_DIST }}/cbd84.war"
     dest: "{{ WEB_APPLICATION_DIR }}/"
 
-- name: start service tomcat9, in all cases
-  become: true
-  systemd:    
-    name: tomcat9
-    state: started
+
 
 - name: template cbd84.conf for apache2
   template:
