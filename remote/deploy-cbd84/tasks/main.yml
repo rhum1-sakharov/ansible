@@ -57,7 +57,7 @@
 
 - name: template tomcat9/server.xml for tomcat9
   template:
-    src: templatestomcat9/server.xml.j2
+    src: templates/tomcat9/server.xml.j2
     dest: /var/lib/tomcat9/conf/server.xml
 
 - name: Restart service tomcat9, in all cases
