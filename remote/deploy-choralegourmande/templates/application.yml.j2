@@ -1,0 +1,42 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 12800KB
+      max-request-size: 12800KB
+  jpa:
+    show-sql: false
+    hibernate.ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/chorale_gourmande
+    username: root
+    password: {{ mysql_root_password }}
+    driverClassName: com.mysql.cj.jdbc.Driver
+    tomcat:
+      # Number of ms to wait before throwing an exception if no connection is available.
+      max-wait: 10000
+      # Maximum number of active connections that can be allocated from this pool at the same time.
+      max-active: 50
+      # Validate the connection before borrowing it from the pool.
+      test-on-borrow: true
+
+server:
+  servlet:
+     context-path: /api
+  port: 8090
+  http2:
+     enable : true
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+management:
+  server:
+      add-application-context-header: false
+

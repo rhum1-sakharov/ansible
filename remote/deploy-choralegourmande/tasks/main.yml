@@ -44,8 +44,13 @@
   file: 
     path: "{{ APPLICATION_DIR }}/config"
     state: directory
-   
   
+- name: "add application.yml"
+  become: true
+  template:
+    src: templates/application.yml.j2
+    dest: "{{ APPLICATION_DIR }}/config/application.yml"
+    backup: yes
 
   
 - name: "remove dir {{ WEB_APPLICATION_DIR }}"
