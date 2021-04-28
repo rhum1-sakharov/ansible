@@ -1,0 +1,21 @@
+---
+- name: Deploiement de l'application chorale gourmande
+  hosts: webservers   
+  remote_user: root
+  vars:
+    NODEJS_VERSION: "12"
+    ansible_distribution_release: "bionic" #trusty
+    TMP_DIR: "/tmp/choralgegourmande"
+    WEB_APPLICATION_DIR: "/var/www/choralegourmande"
+    APPLICATION_DIR: "/opt/choralegourmande"
+    BACK_PORT: "8090"
+  
+  tasks:  
+
+  - name: INCLUDE | vars.yml
+    include_vars: vars.yml
+
+  - name: INCLUDE | remote/deploy-choralegourmande
+    include_role:      
+      name: remote/deploy-choralegourmande
+  

@@ -1,0 +1,33 @@
+---
+# tasks file for remote/deploy-choralegourmande
+
+- name: "remove dir {{ WEB_APPLICATION_DIR }}"
+  file: 
+    path: "{{ WEB_APPLICATION_DIR }}"
+    state: absent
+
+- name: "create dir {{ WEB_APPLICATION_DIR }}"
+  file: 
+    path: "{{ WEB_APPLICATION_DIR }}"
+    state: directory
+  
+
+- name: template chorale-gourmande.conf for apache2
+  template:
+    src: templates/chorale-gourmande.conf.j2
+    dest: /etc/apache2/sites-enabled/chorale-gourmande.conf
+
+- name: ".htaccess for {{ WEB_APPLICATION_DIR }}"
+  template:
+    src: templates/htaccess.j2
+    dest: "{{ WEB_APPLICATION_DIR }}/.htaccess"
+
+- name: "copy files"
+  copy:
+    src: "{{ LOCAL_DIST }}/"
+    dest: "{{ WEB_APPLICATION_DIR }}"
+
+- name: Restart service apache2, in all cases
+  service:
+    name: apache2
+    state: restarted
