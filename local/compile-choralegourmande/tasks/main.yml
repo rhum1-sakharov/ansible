@@ -1,0 +1,39 @@
+---
+# tasks file for local/compile-choralegourmande
+
+- name: git checkout choralegourmande
+  git:
+      repo: 'https://github.com/rhum1-sakharov/chorale.git'
+      dest: "{{ TMP_DIR }}"
+      force: yes  
+
+- name: "install node modules  {{ TMP_DIR }}/choralfront"
+  become: true
+  shell: 
+     cmd: npm i
+     chdir: "{{ TMP_DIR }}/choralfront"
+
+- name: compile "{{ TMP_DIR }}/choralfront"
+  shell: 
+     cmd: ng build --prod
+     chdir: "{{ TMP_DIR }}/choralfront"
+
+- name: template application.yml
+  template:
+    src: templates/application.yml.j2
+    dest: "{{ TMP_DIR }}/choralegourmande/src/main/resources/application.yml"
+
+- name: compile java choralegourmande
+  become: true
+  shell:      
+     cmd: mvn clean install -DskipTests=true
+     chdir: "{{ TMP_DIR }}/choralegourmande"
+
+- name: "Change file ownership, group and permissions for {{ TMP_DIR }}"
+  file:
+    path: "{{ TMP_DIR }}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: root
+    mode: '0755'  

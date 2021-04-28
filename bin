@@ -24,6 +24,10 @@ case "$1" in
 	compilecbd84)
 	    sudo ansible-playbook -i hosts playbooks/compile-cbd84.yml  --vault-password-file .vault_pass 
 		;;
+	
+	compilecg)
+	    sudo ansible-playbook -i hosts playbooks/compile-choralegourmande.yml  --vault-password-file .vault_pass 
+		;;
 
 	deploydap) 
     	ansible-playbook -i hosts playbooks/deploy-dujardinaupotager.yml  --vault-password-file .vault_pass  
@@ -51,6 +55,7 @@ case "$1" in
 		echo "Utilisation : $0"
 		echo "	compilenb : compiler nbjardins"
 		echo "	compilecbd84 : compiler cbd84"
+		echo "	compilecg : compiler choralegourmande"
 		echo "	deploydap : deployer du jardin au potager"
 		echo "	deploycbd84 : deployer cbd84"
         echo "	infraremote : installer l'infra remote"
