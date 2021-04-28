@@ -23,6 +23,9 @@
                 allow from all
         </Directory>
 
+        ProxyPass /api http://localhost:8090/api
+        ProxyPassReverse /api http://localhost:8090/api
+
         # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
         # error, crit, alert, emerg.
         # It is also possible to configure the loglevel for particular
