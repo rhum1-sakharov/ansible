@@ -5,7 +5,7 @@
   vars:
     NODEJS_VERSION: "12"
     ansible_distribution_release: "bionic" #trusty
-    TMP_DIR: "/tmp/choralgegourmande"
+    TMP_DIR: "/tmp/choralegourmande"
     WEB_APPLICATION_DIR: "/var/www/choralegourmande"
     APPLICATION_DIR: "/opt/choralegourmande"
     BACK_PORT: "8090"

@@ -1,36 +1,43 @@
 ---
 # tasks file for remote/deploy-choralegourmande
 
-- name: "create systemd service chorale-gourmande"
-  become: true
-  template:
-    src: templates/chorale-gourmande.service.j2
-    dest: "/etc/systemd/system/chorale-gourmande.service"
+# - name: "create systemd service chorale-gourmande"
+#   become: true
+#   template:
+#     src: templates/chorale-gourmande.service.j2
+#     dest: "/etc/systemd/system/chorale-gourmande.service"
 
-- name: Enable service chorale-gourmande and ensure it is not masked
-  become: true
-  systemd:
-    name: chorale-gourmande
-    enabled: yes
-    masked: no
+# - name: Enable service chorale-gourmande and ensure it is not masked
+#   become: true
+#   systemd:
+#     name: chorale-gourmande
+#     enabled: yes
+#     masked: no
 
-- name: Just force systemd to reread configs (2.4 and above)
-  become: true
-  systemd:
-    daemon_reload: yes
+# - name: Just force systemd to reread configs (2.4 and above)
+#   become: true
+#   systemd:
+#     daemon_reload: yes
 
-- name: start service chorale-gourmande, in all cases
-  become: true
-  systemd:
-    name: chorale-gourmande
-    state: started
+# - name: start service chorale-gourmande, in all cases
+#   become: true
+#   systemd:
+#     name: chorale-gourmande
+#     state: started
 
-- name: "copy jar to {{ APPLICATION_DIR }}"
-  become: true
-  shell:
-   cmd: "mkdir -p {{ APPLICATION_DIR }}/config && cp  {{ TMP_DIR }}/choralegourmande/target/chorale-gourmande.jar  {{ APPLICATION_DIR }}/chorale-gourmande.jar"       
+# - name: "mkdir  {{ APPLICATION_DIR }}/config"
+#   become: true
+#   file: 
+#     path: "{{ APPLICATION_DIR }}/config"
+#     state: directory
+   
   
-
+- name: "copy chorale-gourmande.jar"
+  become: true
+  copy:
+   src: "{{ TMP_DIR }}/choralegourmande/target/chorale-gourmande.jar"
+   dest: "{{ APPLICATION_DIR }}/chorale-gourmande.jar"
+  
 - name: "remove dir {{ WEB_APPLICATION_DIR }}"
   become: true
   file: 
