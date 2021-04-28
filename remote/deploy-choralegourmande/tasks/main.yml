@@ -1,33 +1,65 @@
 ---
 # tasks file for remote/deploy-choralegourmande
 
+- name: "create systemd service chorale-gourmande"
+  template:
+    src: templates/chorale-gourmande.service.j2
+    dest: "/etc/systemd/system/chorale-gourmande.service"
+
+- name: Enable service chorale-gourmande and ensure it is not masked
+  systemd:
+    name: chorale-gourmande
+    enabled: yes
+    masked: no
+
+- name: Just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes
+
+- name: start service chorale-gourmande, in all cases
+  systemd:
+    name: nbjardins
+    state: started
+
+- name: "copy jar to {{ APPLICATION_DIR }}"
+  become: true
+  shell:
+   cmd: "mkdir -p {{ APPLICATION_DIR }}/config && cp  {{ TMP_DIR }}/choralegourmande/target/chorale-gourmande.jar  {{ APPLICATION_DIR }}/chorale-gourmande.jar"       
+  
+
 - name: "remove dir {{ WEB_APPLICATION_DIR }}"
+  become: true
   file: 
     path: "{{ WEB_APPLICATION_DIR }}"
     state: absent
 
 - name: "create dir {{ WEB_APPLICATION_DIR }}"
-  file: 
+  become: true
+  file:   
     path: "{{ WEB_APPLICATION_DIR }}"
     state: directory
   
 
 - name: template chorale-gourmande.conf for apache2
+  become: true
   template:
     src: templates/chorale-gourmande.conf.j2
     dest: /etc/apache2/sites-enabled/chorale-gourmande.conf
 
 - name: ".htaccess for {{ WEB_APPLICATION_DIR }}"
+  become: true
   template:
     src: templates/htaccess.j2
     dest: "{{ WEB_APPLICATION_DIR }}/.htaccess"
 
 - name: "copy files"
+  become: true
   copy:
     src: "{{ LOCAL_DIST }}/"
     dest: "{{ WEB_APPLICATION_DIR }}"
 
 - name: Restart service apache2, in all cases
+  become: true
   service:
     name: apache2
-    state: restarted
+    state: restarted    
